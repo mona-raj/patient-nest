@@ -8,10 +8,17 @@ import { CheckCircle2, XCircle } from "lucide-react";
 interface BedProps {
   id: number;
   roomNumber: string;
+  isOccupied: boolean;
+  onStatusChange?: (isOccupied: boolean) => void;
 }
 
-const BedStatus = ({ id, roomNumber }: BedProps) => {
-  const [isOccupied, setIsOccupied] = useState(false);
+const BedStatus = ({ id, roomNumber, isOccupied: initialOccupied, onStatusChange }: BedProps) => {
+  const [isOccupied, setIsOccupied] = useState(initialOccupied);
+
+  const handleStatusChange = (newStatus: boolean) => {
+    setIsOccupied(newStatus);
+    onStatusChange?.(newStatus);
+  };
 
   return (
     <Card className="p-4 card-hover">
@@ -31,7 +38,7 @@ const BedStatus = ({ id, roomNumber }: BedProps) => {
         </div>
         <Switch
           checked={isOccupied}
-          onCheckedChange={setIsOccupied}
+          onCheckedChange={handleStatusChange}
           className="data-[state=checked]:bg-destructive"
         />
       </div>

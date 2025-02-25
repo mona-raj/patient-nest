@@ -10,9 +10,6 @@ const HeroSection = () => {
     <section className="hero-gradient min-h-screen pt-20">
       <div className="container mx-auto px-4 py-20">
         <div className="max-w-3xl mx-auto text-center animate-fade-in">
-          <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 mb-6">
-            Welcome to the future of healthcare
-          </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
             Smart Hospital Bed Management
           </h1>
@@ -34,6 +31,7 @@ const HeroSection = () => {
               variant="outline" 
               className="animate-slide-up" 
               style={{ animationDelay: "0.4s" }}
+              onClick={() => navigate("/learn-more")}
             >
               Learn More
             </Button>
