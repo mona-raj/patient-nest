@@ -6,13 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Database } from "@/integrations/supabase/types";
+
+type UserRole = Database["public"]["Enums"]["user_role"];
 
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const [role, setRole] = useState<"patient" | "staff" | "administrator">("patient");
+  const [role, setRole] = useState<UserRole>("patient");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -97,7 +100,7 @@ const Auth = () => {
                 <select
                   className="w-full p-2 border rounded"
                   value={role}
-                  onChange={(e) => setRole(e.target.value as "patient" | "staff" | "administrator")}
+                  onChange={(e) => setRole(e.target.value as UserRole)}
                 >
                   <option value="patient">Patient</option>
                   <option value="staff">Hospital Staff</option>
@@ -124,4 +127,3 @@ const Auth = () => {
 };
 
 export default Auth;
-
