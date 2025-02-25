@@ -11,6 +11,8 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import LearnMore from "./pages/LearnMore";
 import Dashboard from "./pages/Dashboard";
+import PatientPortal from "./pages/PatientPortal";
+import AdminPortal from "./pages/AdminPortal";
 
 // Create a client
 const queryClient = new QueryClient({
@@ -53,8 +55,16 @@ const App: React.FC = () => {
               <Route 
                 path="/" 
                 element={
-                  isAuthenticated && userRole === "staff" ? (
-                    <Navigate to="/dashboard" replace />
+                  isAuthenticated ? (
+                    userRole === "staff" ? (
+                      <Navigate to="/dashboard" replace />
+                    ) : userRole === "patient" ? (
+                      <Navigate to="/patient-portal" replace />
+                    ) : userRole === "administrator" ? (
+                      <Navigate to="/admin-portal" replace />
+                    ) : (
+                      <Index />
+                    )
                   ) : (
                     <Index />
                   )
@@ -72,6 +82,30 @@ const App: React.FC = () => {
                   )
                 } 
               />
+              <Route 
+                path="/patient-portal" 
+                element={
+                  !isAuthenticated ? (
+                    <Navigate to="/auth" replace />
+                  ) : userRole !== "patient" ? (
+                    <Navigate to="/" replace />
+                  ) : (
+                    <PatientPortal />
+                  )
+                } 
+              />
+              <Route 
+                path="/admin-portal" 
+                element={
+                  !isAuthenticated ? (
+                    <Navigate to="/auth" replace />
+                  ) : userRole !== "administrator" ? (
+                    <Navigate to="/" replace />
+                  ) : (
+                    <AdminPortal />
+                  )
+                } 
+              />
               <Route path="/auth" element={<Auth />} />
               <Route path="/learn-more" element={<LearnMore />} />
               <Route path="*" element={<NotFound />} />
@@ -84,4 +118,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-

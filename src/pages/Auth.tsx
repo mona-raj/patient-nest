@@ -10,11 +10,6 @@ import { supabase } from "@/integrations/supabase/client";
 // Define the UserRole type explicitly
 type UserRole = "patient" | "staff" | "administrator";
 
-// Define a type for the profile data
-type ProfileData = {
-  role: UserRole;
-};
-
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,26 +25,39 @@ const Auth = () => {
 
     try {
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data: { user }, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
         if (error) throw error;
         
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('email', email)
-          .single();
+        if (user) {
+          const { data: profileData, error: profileError } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single();
 
-        if (profileError) throw profileError;
+          if (profileError) throw profileError;
 
-        const profile = profileData as ProfileData;
-        
-        if (profile?.role === 'staff') {
-          navigate("/dashboard");
-        } else {
-          navigate("/");
+          switch (profileData?.role) {
+            case 'staff':
+              navigate("/dashboard");
+              break;
+            case 'patient':
+              navigate("/patient-portal");
+              break;
+            case 'administrator':
+              navigate("/admin-portal");
+              break;
+            default:
+              navigate("/");
+          }
+
+          toast({
+            title: "Success",
+            description: "You have been logged in successfully.",
+          });
         }
       } else {
         const { error } = await supabase.auth.signUp({
