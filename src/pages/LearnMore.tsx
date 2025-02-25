@@ -1,13 +1,10 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import Header from "@/components/Header";
 import { Award, Users, Building2, Trophy } from "lucide-react";
-
 const LearnMore = () => {
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       <Header />
-      <div className="container mx-auto px-4 py-20">
+      <div className="container mx-auto py-20 px-[80px]">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-4">Welcome to MediSync Hospital</h1>
           <p className="text-lg text-muted-foreground">
@@ -74,8 +71,6 @@ const LearnMore = () => {
           <div className="bg-[url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d')] bg-cover bg-center rounded-lg min-h-[300px]" />
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default LearnMore;
