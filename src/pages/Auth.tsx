@@ -27,7 +27,18 @@ const Auth = () => {
           password,
         });
         if (error) throw error;
-        navigate("/");
+        
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('email', email)
+          .single();
+
+        if (profileData?.role === 'staff') {
+          navigate("/dashboard");
+        } else {
+          navigate("/");
+        }
       } else {
         const { error } = await supabase.auth.signUp({
           email,
@@ -113,3 +124,4 @@ const Auth = () => {
 };
 
 export default Auth;
+
