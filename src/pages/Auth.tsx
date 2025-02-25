@@ -6,10 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Database } from "@/integrations/supabase/types";
 
-// Define the UserRole type explicitly from the Database types
+// Define the UserRole type explicitly
 type UserRole = "patient" | "staff" | "administrator";
+
+// Define a type for the profile data
+type ProfileData = {
+  role: UserRole;
+};
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -32,13 +36,17 @@ const Auth = () => {
         });
         if (error) throw error;
         
-        const { data: profileData } = await supabase
+        const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('role')
           .eq('email', email)
           .single();
 
-        if (profileData?.role === 'staff') {
+        if (profileError) throw profileError;
+
+        const profile = profileData as ProfileData;
+        
+        if (profile?.role === 'staff') {
           navigate("/dashboard");
         } else {
           navigate("/");
