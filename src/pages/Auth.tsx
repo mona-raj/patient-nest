@@ -7,15 +7,12 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
-// Define the UserRole type explicitly
-type UserRole = "patient" | "staff" | "administrator";
-
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const [role, setRole] = useState<UserRole>("patient");
+  const [role, setRole] = useState<"patient" | "staff" | "administrator">("patient");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -25,40 +22,12 @@ const Auth = () => {
 
     try {
       if (isLogin) {
-        const { data: { user }, error } = await supabase.auth.signInWithPassword({
+        const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
         if (error) throw error;
-        
-        if (user) {
-          const { data: profileData, error: profileError } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', user.id)
-            .single();
-
-          if (profileError) throw profileError;
-
-          switch (profileData?.role) {
-            case 'staff':
-              navigate("/dashboard");
-              break;
-            case 'patient':
-              navigate("/patient-portal");
-              break;
-            case 'administrator':
-              navigate("/admin-portal");
-              break;
-            default:
-              navigate("/");
-          }
-
-          toast({
-            title: "Success",
-            description: "You have been logged in successfully.",
-          });
-        }
+        navigate("/");
       } else {
         const { error } = await supabase.auth.signUp({
           email,
@@ -117,7 +86,7 @@ const Auth = () => {
                 <select
                   className="w-full p-2 border rounded"
                   value={role}
-                  onChange={(e) => setRole(e.target.value as UserRole)}
+                  onChange={(e) => setRole(e.target.value as "patient" | "staff" | "administrator")}
                 >
                   <option value="patient">Patient</option>
                   <option value="staff">Hospital Staff</option>
