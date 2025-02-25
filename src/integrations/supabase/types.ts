@@ -9,7 +9,51 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      bed_notifications: {
+        Row: {
+          created_at: string
+          id: string
+          read: boolean | null
+          room_number: string
+          staff_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          read?: boolean | null
+          room_number: string
+          staff_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          read?: boolean | null
+          room_number?: string
+          staff_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +62,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "patient" | "staff" | "administrator"
     }
     CompositeTypes: {
       [_ in never]: never

@@ -1,8 +1,11 @@
 
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="hero-gradient min-h-screen pt-20">
       <div className="container mx-auto px-4 py-20">
@@ -18,10 +21,20 @@ const HeroSection = () => {
             Real-time updates and AI-powered recommendations at your fingertips.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button size="lg" className="animate-slide-up" style={{ animationDelay: "0.2s" }}>
-              Get Started <ArrowRight className="ml-2 h-4 w-4" />
+            <Button 
+              size="lg" 
+              className="animate-slide-up" 
+              style={{ animationDelay: "0.2s" }}
+              onClick={() => navigate("/auth")}
+            >
+              Login Now <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Button size="lg" variant="outline" className="animate-slide-up" style={{ animationDelay: "0.4s" }}>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="animate-slide-up" 
+              style={{ animationDelay: "0.4s" }}
+            >
               Learn More
             </Button>
           </div>

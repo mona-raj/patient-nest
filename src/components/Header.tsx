@@ -1,8 +1,11 @@
 
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b">
       <div className="container mx-auto px-4">
@@ -17,7 +20,9 @@ const Header = () => {
             <Button variant="ghost">Dashboard</Button>
             <Button variant="ghost">About</Button>
             <Button variant="ghost">Contact</Button>
-            <Button variant="default">Login</Button>
+            <Button variant="default" onClick={() => navigate("/auth")}>
+              Login
+            </Button>
           </nav>
         </div>
       </div>
