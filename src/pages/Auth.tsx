@@ -8,7 +8,8 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Database } from "@/integrations/supabase/types";
 
-type UserRole = Database["public"]["Enums"]["user_role"];
+// Define the UserRole type explicitly from the Database types
+type UserRole = "patient" | "staff" | "administrator";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
